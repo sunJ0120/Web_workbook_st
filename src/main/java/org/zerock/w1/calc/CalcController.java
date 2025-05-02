@@ -10,6 +10,8 @@ import java.io.IOException;
 @WebServlet(name = "calcController", urlPatterns = "/calc/makeResult")
 public class CalcController extends HttpServlet {
 
+    //commit test
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String num1 = req.getParameter("num1");
