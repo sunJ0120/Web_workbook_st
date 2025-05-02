@@ -10,7 +10,7 @@ import java.io.IOException;
 @WebServlet(name = "calcController", urlPatterns = "/calc/makeResult")
 public class CalcController extends HttpServlet {
 
-    //commit test
+    //commit test...
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
