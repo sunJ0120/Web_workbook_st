@@ -15,6 +15,6 @@ public class BoardDTO {
     private String title;
     private String content;
     private LocalDateTime regDate;
-    private LocalDateTime updateDate;
+    private LocalDateTime modDate;
     private boolean isPublic;
 }
