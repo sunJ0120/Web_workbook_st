@@ -42,4 +42,7 @@ bin/
 .DS_Store
 
 ### 모든 디렉토리의 properties 무시 ###
+*.properties
+
+# .gitignore
 **/*.properties
