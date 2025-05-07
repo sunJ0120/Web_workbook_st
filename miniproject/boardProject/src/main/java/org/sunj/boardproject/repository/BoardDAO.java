@@ -14,8 +14,8 @@ import java.util.List;
 /*
 ☑️ insert : 하나를 등록, vo 받아서 db에 insert(controller에서 vo로 변환해서 줌)
 ☑️ updateOne : 하나를 업데이트, vo를 받아서 db에 update(controller에서 vo로 변환해서 줌)
-selectOne : 하나를 조회, vo를 받아서 controller에 전달(controller에서 dto로 변환)
-selectAll : 여러개를 조회(list), vo를 받아서 controller에 전달
+☑️ selectOne : 하나를 조회, vo를 받아서 controller에 전달(controller에서 dto로 변환)
+☑️ selectAll : 여러개를 조회(list), vo를 받아서 controller에 전달
 deleteOne : 하나를 삭제, boardno를 받아서 vo로 변환해서 db에 delete
  */
 @Log4j2
@@ -117,5 +117,21 @@ public class BoardDAO {
             list.add(vo);
         }
         return list;
+    }
+
+    /*
+    delete의 경우, Long boardno를 받아서 해당 정보를 삭제한다.
+     */
+    public int deleteOne(Long boardno) throws Exception{
+        String sql = "DELETE " +
+                "FROM board " +
+                "WHERE boardno = ?";
+
+        @Cleanup Connection conn = ConnectionUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement pstmt = conn.prepareStatement(sql);
+
+        pstmt.setLong(1, boardno);
+
+        return pstmt.executeUpdate();
     }
 }

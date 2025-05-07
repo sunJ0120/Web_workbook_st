@@ -66,4 +66,11 @@ class BoardDAOTest {
         }
         Assertions.assertEquals(list.size(),2); //지금 2개이므로, list가 다 가져오면 2개여야 함.
     }
+
+    @Test
+    @DisplayName("deleteOne을 통해 한개의 게시들을 삭제할 수 있는지 확인")
+    public void testDeleteOne() throws Exception{
+        Long boardno = 4L;
+        Assertions.assertEquals(dao.deleteOne(boardno),1);
+    }
 }
