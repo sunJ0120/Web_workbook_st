@@ -26,6 +26,31 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+    //Maria dataBase
+    implementation 'org.mariadb.jdbc:mariadb-java-client:3.3.3'
+
+    //ConnectionPool HikariCP
+    implementation 'com.zaxxer:HikariCP:6.3.0'
+
+    //DTO to VO modelMapper
+    implementation 'org.modelmapper:modelmapper:3.1.1'
+
+    //log4j-core
+    implementation 'org.apache.logging.log4j:log4j-core:2.23.1'
+    //log4j-api
+    implementation 'org.apache.logging.log4j:log4j-api:2.23.1'
+    //log4j-slf4j-impl
+    implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.23.1'
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    //use test environment
+    testCompileOnly("org.projectlombok:lombok:1.18.38")
+    testAnnotationProcessor("org.projectlombok:lombok:1.18.38")
+
+    //jstl
+    implementation 'javax.servlet:jstl:1.2'
 }
 
 test {
