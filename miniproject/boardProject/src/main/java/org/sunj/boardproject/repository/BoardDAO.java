@@ -1,21 +1,24 @@
 package org.sunj.boardproject.repository;
 
 import lombok.Cleanup;
+import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j2;
+import org.checkerframework.checker.units.qual.C;
 import org.sunj.boardproject.domain.BoardVO;
 import org.sunj.boardproject.util.ConnectionUtil;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.Timestamp;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
-insert : 하나를 등록, vo 받아서 db에 insert(controller에서 vo로 변환해서 줌)
-updateOne : 하나를 업데이트, vo를 받아서 db에 update(controller에서 vo로 변환해서 줌)
+☑️ insert : 하나를 등록, vo 받아서 db에 insert(controller에서 vo로 변환해서 줌)
+☑️ updateOne : 하나를 업데이트, vo를 받아서 db에 update(controller에서 vo로 변환해서 줌)
 selectOne : 하나를 조회, vo를 받아서 controller에 전달(controller에서 dto로 변환)
 selectAll : 여러개를 조회(list), vo를 받아서 controller에 전달
 deleteOne : 하나를 삭제, boardno를 받아서 vo로 변환해서 db에 delete
  */
+@Log4j2
 public class BoardDAO {
     public int insert(BoardVO vo) throws Exception{
         String sql = "INSERT INTO board " +
@@ -55,5 +58,64 @@ public class BoardDAO {
         pstmt.setLong(5, vo.getBoardno());
 
         return pstmt.executeUpdate();
+    }
+
+    /*
+    selectOne의 경우, vo를 받아서 controller에 전달한다.
+     */
+    public BoardVO selectOne(Long boardno) throws Exception{
+        String sql = "SELECT * " +
+                "FROM board " +
+                "WHERE boardno = ?";
+        @Cleanup Connection conn = ConnectionUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement pstmt = conn.prepareStatement(sql);
+
+        pstmt.setLong(1, boardno);
+        @Cleanup ResultSet rs = pstmt.executeQuery();
+
+        BoardVO vo = null;
+
+        if(rs.next()){
+            vo = BoardVO.builder()
+                    .boardno(rs.getLong("boardno"))
+                    .title(rs.getString("title"))
+                    .content(rs.getString("content"))
+                    .regDate(rs.getTimestamp("regDate").toLocalDateTime())
+                    .modDate(rs.getTimestamp("modDate") != null ?
+                            rs.getTimestamp("modDate").toLocalDateTime()
+                            : null)
+                    .build();
+        }else{
+            log.error("boardno에 해당하는 객체를 찾을 수 없습니다.");
+        }
+        return vo;
+    }
+
+    /*
+    selectAll의 경우, list<vo>를 만들어서 controller에 전달한다.
+     */
+    public List<BoardVO> selectAll() throws Exception{
+        String sql = "SELECT * FROM board";
+        @Cleanup Connection conn = ConnectionUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement pstmt = conn.prepareStatement(sql);
+
+        @Cleanup ResultSet rs = pstmt.executeQuery();
+
+        List<BoardVO> list = new ArrayList<>();
+
+        while(rs.next()){
+            BoardVO vo = BoardVO.builder()
+                    .boardno(rs.getLong("boardno"))
+                    .title(rs.getString("title"))
+                    .content(rs.getString("content"))
+                    .regDate(rs.getTimestamp("regDate").toLocalDateTime())
+                    .modDate(rs.getTimestamp("modDate") != null ?
+                            rs.getTimestamp("modDate").toLocalDateTime()
+                            : null)
+                    .isPublic(rs.getBoolean("isPublic"))
+                    .build();
+            list.add(vo);
+        }
+        return list;
     }
 }

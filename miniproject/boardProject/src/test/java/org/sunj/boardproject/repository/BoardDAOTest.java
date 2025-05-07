@@ -1,15 +1,18 @@
 package org.sunj.boardproject.repository;
 
+import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.sunj.boardproject.domain.BoardVO;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
+@Log4j2
 class BoardDAOTest {
     private BoardDAO dao;
 
@@ -42,5 +45,25 @@ class BoardDAOTest {
                 .build();
 
         Assertions.assertEquals(dao.updateOne(vo),1);
+    }
+
+    @Test
+    @DisplayName("select를 통해 하나의 게시글을 불러올 수 있는지 확인")
+    public void testSelectOne() throws Exception{
+        Long boardno = 1L;
+        BoardVO vo = dao.selectOne(1L);
+
+        log.info(vo.toString());
+    }
+
+    @Test
+    @DisplayName("selectAll을 통해 여러개의 게시글을 불러올 수 있는지 확인")
+    public void testSelectAll() throws Exception{
+        List<BoardVO> list = dao.selectAll();
+
+        for(BoardVO vo : list){
+            log.info(vo.toString());
+        }
+        Assertions.assertEquals(list.size(),2); //지금 2개이므로, list가 다 가져오면 2개여야 함.
     }
 }
