@@ -2,6 +2,7 @@ package org.sunj.boardproject.util;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.InputStream;
 import java.sql.Connection;
@@ -10,6 +11,7 @@ import java.util.Properties;
 /*
 ConnectionUtil.INSTANCE.getConnection()을 통해 접근할 수 있도록 구성한다.
  */
+@Log4j2
 public enum ConnectionUtil {
     INSTANCE;
 
@@ -23,7 +25,7 @@ public enum ConnectionUtil {
         try(InputStream input = getClass().getClassLoader().getResourceAsStream("db.properties")){
             props.load(input); //가져온 프로퍼티 load한다.
             String url = props.getProperty("db.url"); //getProperty를 이용해서 props의 정보를 가져온다.
-            String user = props.getProperty("db.user");
+            String user = props.getProperty("db.username");
             String password = props.getProperty("db.password");
 
             //HikariConfig에 설정 정보를 담는다.
@@ -39,7 +41,6 @@ public enum ConnectionUtil {
             ds = new HikariDataSource(config); //HikariDataSource(HikariConfig configuration)이므로 config 값 넣어주기
         }catch (Exception e){
             e.printStackTrace();
-
         }
     }
 
