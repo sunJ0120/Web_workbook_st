@@ -80,10 +80,6 @@
 | 상세 | 게시글의 상세 페이지 입니다. | <img src="https://github.com/user-attachments/assets/85b86bbd-bbe9-4f26-8958-1a2d3568bf3c" width="1000"/> |
 | 삭제 | 게시글의 삭제 기능입니다. | <img src="https://github.com/user-attachments/assets/d4402179-a3e3-4af1-92fe-5a07b7b45d6d" width="1000"/> |
 
-
-## 📄 개발 문서
-https://www.notion.so/JAVA-Servlet-JSP-MariaDB-1ea5ce67581980e9beccd74f72b6e4d9?pvs=4
-
 ## 🎞️ ver 0.1 시연 GIF
 <!-- TODO: 주요 기능 시연을 GIF로 제작해 첨부해주세요 -->
 <img src="https://github.com/user-attachments/assets/d371f36f-59c5-49d1-9f24-eddde4ac6d98" width="1000"/>
