@@ -1,4 +1,4 @@
-package org.zerock.demo;
+package org.zerock;
 
 import java.io.*;
 import javax.servlet.http.*;
