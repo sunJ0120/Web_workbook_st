@@ -1,5 +1,7 @@
 package org.zerock.controller;
 import lombok.extern.log4j.Log4j2;
+import org.zerock.dto.MemberDTO;
+import org.zerock.service.MemberService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,12 +28,18 @@ public class LoginController extends HttpServlet {
         String mid = req.getParameter("mid"); //아이디
         String mpw = req.getParameter("mpw"); //비번
 
-        String str = mid + mpw;
-        HttpSession session = req.getSession();
+        //실제 로그인 service를 하는 것으로 변경
+        try{
+            MemberDTO dto = MemberService.INSTANCE.login(mid, mpw);
+            HttpSession session = req.getSession();
+            //session에 로그인 결과 정보 저장
+            session.setAttribute("loginInfo", dto);
 
-        //session에 정보 저장
-        session.setAttribute("loginInfo", str);
-        //list로 redirect
-        resp.sendRedirect("/todo/list");
+            //list로 redirect
+            resp.sendRedirect("/todo/list");
+        }catch (Exception e){
+            //error로 redirect
+            resp.sendRedirect("/login?result=error");
+        }
     }
 }
