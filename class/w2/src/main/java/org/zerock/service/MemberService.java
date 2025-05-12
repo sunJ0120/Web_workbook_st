@@ -29,4 +29,8 @@ public enum MemberService {
 
         return dto; //급 궁금한건데, 이거 dto를 바로 리턴하는 걸로 로그인 끝내도 되나? 정보만 가져와도 되는것임?
     }
+    //자동 로그인을 위해 uuid를 update 하는 method
+    public void updateUuid(String mid, String uuid) throws Exception{
+        dao.updateUuid(mid, uuid);
+    }
 }

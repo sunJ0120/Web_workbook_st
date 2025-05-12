@@ -13,7 +13,8 @@
 </head>
 <body>
 <h1>Todo List</h1>
-
+<h2>${loginInfo}</h2>
+<h3>${loginInfo.mname}</h3>
 <%--var로 변수 잡고--%>
 <%--내부에서 <li>로 하나씩 출력--%>
 

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.UUID;
 
 @Log4j2
 @WebServlet(name = "loginController", value = "/login")
@@ -28,9 +29,26 @@ public class LoginController extends HttpServlet {
         String mid = req.getParameter("mid"); //아이디
         String mpw = req.getParameter("mpw"); //비번
 
+        String auto = req.getParameter("auto"); //자동 로그인 체크 박스
+
+        boolean rememberMe = false; //자동 로그인 체크 박스가 체크되어 있는지 확인하는 flag
+        if (auto != null && auto.equals("on")) {
+            rememberMe = true; //auto가 체크 되어 있고 null이 아닐 경우,.
+        }
+
+        //rememberMe = true 이면 java.util의 UUID를 이용해서 임의의 번호를 생성한다.
+        if(rememberMe){
+            String uuid = UUID.randomUUID().toString();
+        }
         //실제 로그인 service를 하는 것으로 변경
         try{
             MemberDTO dto = MemberService.INSTANCE.login(mid, mpw);
+            //여기가 로그인이 끝나고 session에 저장하기 전 시점이다.
+            if(rememberMe){
+                String uuid = UUID.randomUUID().toString(); //랜덤한 String의 uuid를 생성한다.
+                MemberService.INSTANCE.updateUuid(mid, uuid); //updateUuid를 통해서 uuid를 update한다.
+                dto.setUuid(uuid); //dto에 uuid를 넣어준다.
+            }
             HttpSession session = req.getSession();
             //session에 로그인 결과 정보 저장
             session.setAttribute("loginInfo", dto);
@@ -39,6 +57,7 @@ public class LoginController extends HttpServlet {
             resp.sendRedirect("/todo/list");
         }catch (Exception e){
             //error로 redirect
+            log.error("message : {}", e.getMessage());
             resp.sendRedirect("/login?result=error");
         }
     }
