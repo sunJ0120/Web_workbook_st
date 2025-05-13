@@ -5,10 +5,7 @@ import org.zerock.service.MemberService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -48,6 +45,14 @@ public class LoginController extends HttpServlet {
                 String uuid = UUID.randomUUID().toString(); //랜덤한 String의 uuid를 생성한다.
                 MemberService.INSTANCE.updateUuid(mid, uuid); //updateUuid를 통해서 uuid를 update한다.
                 dto.setUuid(uuid); //dto에 uuid를 넣어준다.
+
+                //생성된 uuid를 쿠키에 넣어주는 작업을 한다.
+                 Cookie rememberCookie
+                         = new Cookie("rememberMe", uuid); //rememberMe라는 이름으로 uuid를 쿠키로 넣어준다.
+                rememberCookie.setMaxAge(60*60*24*7); //쿠키의 유효기간을 7일로 설정
+                rememberCookie.setPath("/"); //path를 설정
+
+                resp.addCookie(rememberCookie); //resp에 cookie를 추가한다.
             }
             HttpSession session = req.getSession();
             //session에 로그인 결과 정보 저장

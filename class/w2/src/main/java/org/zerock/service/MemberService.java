@@ -33,4 +33,12 @@ public enum MemberService {
     public void updateUuid(String mid, String uuid) throws Exception{
         dao.updateUuid(mid, uuid);
     }
+
+    //DAO에서 UUID로 회원 정보를 가져오는 메서드를 작성해서 해당 사용자의 정보를 로딩해온다.
+    public MemberDTO getByUUID(String uuid) throws Exception{
+        MemberVO vo = dao.selectUUID(uuid);
+        MemberDTO dto = modelMapper.map(vo, MemberDTO.class);
+
+        return dto; //dto를 리턴한다.
+    }
 }
