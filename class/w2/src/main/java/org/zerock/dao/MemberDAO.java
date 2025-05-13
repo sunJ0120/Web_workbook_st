@@ -53,7 +53,6 @@ public class MemberDAO {
         @Cleanup Connection conn = ConnectionUtil.INTSTANCE.getConnection();
         @Cleanup PreparedStatement pstmt = conn.prepareStatement(query);
         pstmt.setString(1, uuid);
-
         @Cleanup ResultSet rs = pstmt.executeQuery();
         MemberVO vo = null;
 
