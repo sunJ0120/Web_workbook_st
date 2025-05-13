@@ -37,7 +37,7 @@ public class LoginCheckFilter implements Filter {
 
         //session에 loginInfo값이 없을 경우
         //remember-me라는 이름의 자동 로그인 쿠키를 찾아야 한다.
-        Cookie cookie = findCookie(req.getCookies(), "rememberMe");
+        Cookie cookie = findCookie(req.getCookies(), "remember-me");
 
         //로그인 정보가 없을 경우 다시 login 페이지로 이동하도록 한다.
         if(cookie == null){

@@ -48,7 +48,7 @@ public class LoginController extends HttpServlet {
 
                 //생성된 uuid를 쿠키에 넣어주는 작업을 한다.
                  Cookie rememberCookie
-                         = new Cookie("rememberMe", uuid); //rememberMe라는 이름으로 uuid를 쿠키로 넣어준다.
+                         = new Cookie("remember-me", uuid); //rememberMe라는 이름으로 uuid를 쿠키로 넣어준다.
                 rememberCookie.setMaxAge(60*60*24*7); //쿠키의 유효기간을 7일로 설정
                 rememberCookie.setPath("/"); //path를 설정
 
