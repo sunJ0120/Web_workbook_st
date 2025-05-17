@@ -22,9 +22,9 @@ deleteOne : 하나를 삭제, boardno를 받아서 vo로 변환해서 db에 dele
 public class BoardDAO {
     public int insert(BoardVO vo) throws Exception{
         String sql = "INSERT INTO board " +
-                "(title, content, regDate, isPublic) " +
+                "(title, content, regDate, isPublic,user_id) " +
                 "VALUES " +
-                "(?,?,?,?)";
+                "(?,?,?,?,?)";
 
         @Cleanup Connection conn = ConnectionUtil.INSTANCE.getConnection();
         @Cleanup PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -33,6 +33,7 @@ public class BoardDAO {
         pstmt.setString(2, vo.getContent());
         pstmt.setTimestamp(3, Timestamp.valueOf(vo.getRegDate()));
         pstmt.setBoolean(4, vo.isPublic());
+        pstmt.setString(5, vo.getUserId());
 
         return pstmt.executeUpdate();
     }
@@ -84,6 +85,7 @@ public class BoardDAO {
                     .modDate(rs.getTimestamp("modDate") != null ?
                             rs.getTimestamp("modDate").toLocalDateTime()
                             : null)
+                    .userId(rs.getString("user_id"))
                     .build();
         }else{
             log.error("boardno에 해당하는 객체를 찾을 수 없습니다.");
@@ -113,6 +115,7 @@ public class BoardDAO {
                             rs.getTimestamp("modDate").toLocalDateTime()
                             : null)
                     .isPublic(rs.getBoolean("isPublic"))
+                    .userId(rs.getString("user_id"))
                     .build();
             list.add(vo);
         }

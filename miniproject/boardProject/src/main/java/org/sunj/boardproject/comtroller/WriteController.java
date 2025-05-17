@@ -2,6 +2,7 @@ package org.sunj.boardproject.comtroller;
 
 import lombok.extern.log4j.Log4j2;
 import org.sunj.boardproject.domain.BoardDTO;
+import org.sunj.boardproject.domain.UserDTO;
 import org.sunj.boardproject.service.BoardService;
 
 import javax.servlet.ServletException;
@@ -9,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
@@ -31,11 +33,16 @@ public class WriteController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //session에서 user 정보 꺼내오기
+        HttpSession session = req.getSession();
+        String userId = ((UserDTO) session.getAttribute("loginInfo")).getUserId();
+
         BoardDTO dto = BoardDTO.builder()
                 .title(req.getParameter("title"))
                 .content(req.getParameter("content"))
                 .regDate(LocalDateTime.now())
                 .isPublic(Boolean.parseBoolean(req.getParameter("isPublic")))
+                .userId(userId) //session에서 가져온 userId값 추가
                 .build();
         log.info("board/write POST.......");
 

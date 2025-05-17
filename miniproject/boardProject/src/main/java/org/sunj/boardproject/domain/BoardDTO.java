@@ -17,4 +17,5 @@ public class BoardDTO {
     private LocalDateTime regDate;
     private LocalDateTime modDate;
     private boolean isPublic;
+    private String userId;
 }
