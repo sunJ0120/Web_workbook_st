@@ -20,4 +20,10 @@ public enum MapperUtil {
     public ModelMapper get(){
         return modelMapper;
     }
+
+    //Null Checking을 위한 메서드 추가
+    public <S,D> D mapOrNull(S source, Class<D> destinationType){
+        if(source == null) return null;
+        return modelMapper.map(source, destinationType);
+    }
 }

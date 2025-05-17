@@ -14,8 +14,8 @@ import java.sql.ResultSet;
 public class UserDAO {
 
     public UserVO getWithPassword(String userId, String userPw) throws Exception{
-        String sql = "SELECT userId, userPw, userName FROM users" +
-                "WHERE userId = ? AND userPw = ?";
+        String sql = "SELECT user_id, user_pw, user_name FROM users " +
+                "WHERE user_id = ? AND user_pw = ?";
 
         UserVO vo = null; //Builder Pattern을 통해서 생성한다.
 
@@ -29,9 +29,9 @@ public class UserDAO {
 
         if(rs.next()){
             vo = UserVO.builder()
-                    .userId(rs.getString("userId"))
-                    .userPw(rs.getString("userPw"))
-                    .userName(rs.getString("userName"))
+                    .userId(rs.getString("user_id"))
+                    .userPw(rs.getString("user_pw"))
+                    .userName(rs.getString("user_name"))
                     .build();
         }
         return vo;

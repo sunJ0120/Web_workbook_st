@@ -72,5 +72,4 @@ public enum BoardService {
         BoardVO vo = modelMapper.map(dto, BoardVO.class);
         dao.updateOne(vo);
     }
-
 }
