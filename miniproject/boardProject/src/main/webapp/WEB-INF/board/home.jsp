@@ -43,7 +43,7 @@
             margin-top: 20px;
         }
 
-        .button-group a button {
+        .button-group form button {
             padding: 10px 20px;
             font-size: 18px;
             border: none;
@@ -54,7 +54,7 @@
             transition: background-color 0.2s;
         }
 
-        .button-group a button:hover {
+        .button-group form button:hover {
             background-color: #555; /* 밝은 회색으로 hover 효과 */
         }
     </style>
@@ -68,12 +68,15 @@
     <img src="${pageContext.request.contextPath}/img/smilehehe.png" alt="My Dog">
 
     <div class="button-group">
-        <a href="/board/list">
-            <button type="button">List</button>
-        </a>
-        <a href="/board/write">
-            <button type="button">Write</button>
-        </a>
+        <form method="get" action = "/board/list">
+            <button type="submit">List</button>
+        </form>
+        <form method="get" action = "/board/write">
+            <button type="submit">Write</button>
+        </form>
+        <form method="post" action = "/logout">
+            <button type="submit">Logout</button>
+        </form>
     </div>
 </div>
 

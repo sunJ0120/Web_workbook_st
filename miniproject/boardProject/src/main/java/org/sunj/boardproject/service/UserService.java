@@ -30,4 +30,7 @@ public enum UserService {
     }
 
     //이 밑 부분에는 자동 로그인을 위한 uuid 관련 메서드들을 넣는다.
+    public void updateUuid(String userId, String uuid) throws Exception{
+        dao.updateUuid(userId, uuid); //dao의 updateUuid로 연결한다.
+    }
 }

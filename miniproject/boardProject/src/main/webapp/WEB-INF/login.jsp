@@ -58,6 +58,18 @@
         .login-container button:hover {
             background-color: #45a049;
         }
+        .auto-login {
+            display: flex;
+            align-items: center;     /* 세로 정렬 */
+            justify-content: center; /* ← 이걸 추가해야 "가운데로" 온다! */
+            gap: 8px;
+            margin-top: 10px;
+        }
+        /*텍스트 노드가 저장되어 있으니까, 정렬이 잘 안된다. 이거 id로 감싸주기*/
+        #check {
+            width: 16px;
+            height: 16px;
+        }
     </style>
 </head>
 <body>
@@ -66,6 +78,10 @@
     <form action="/login" method="post">
         <input type="text" name="userId" placeholder="User ID" required>
         <input type="password" name="userPw" placeholder="Password" required>
+        <div class="auto-login">
+            <label for="check">자동 로그인 여부</label>
+            <input type="checkbox" id="check" name="auto">
+        </div>
         <button type="submit">LOGIN</button>
     </form>
 </div>
