@@ -15,6 +15,10 @@
         <logger name="org.zerock" level="INFO" additivity="false">
             <appender-ref ref="Console" />
         </logger>
+        <!-- mapper 부분 log 레벨을 trace로 설정 -->
+        <logger name="org.zerock.springex.mapper" level="TRACE" additivity="false">
+            <appender-ref ref="Console" />
+        </logger>
 
         <root level="INFO" additivity="false">
             <appender-ref ref="Console" />
