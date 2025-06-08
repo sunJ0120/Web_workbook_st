@@ -6,34 +6,31 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.zerock.springex.domain.TodoVO;
+import org.zerock.springex.dto.TodoDTO;
+import org.zerock.springex.service.TodoService;
 
 import java.time.LocalDate;
 
 @Log4j2
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/root-context.xml")
-public class TodoMapperTests {
-    @Autowired(required = false)
-    private TodoMapper todoMapper;
+public class TodoServiceTests {
+
+    @Autowired
+    private TodoService todoService;
 
     @Test
-    public void testGetTime() {
-        //<select id="getTime" resultType="string"> 이므로 todoMapper.getTime()로 test한다.
-        log.info("todoMapper.getTime() = {}", todoMapper.getTime());
-    }
-
-    @Test
-    void testInsert() throws Exception {
+    void testRegister() throws Exception {
         //given
-        TodoVO vo = TodoVO.builder()
-                .title("새로운 할 일")
-                .dueDate(LocalDate.of(2022, 10, 10))
-                .writer("user00")
+        TodoDTO dto = TodoDTO.builder()
+                .title("Test.......")
+                .dueDate(LocalDate.now())
+                .writer("user1")
                 .build();
         //when
-        todoMapper.insert(vo);
+        todoService.register(dto);
 
         //then
+
     }
 }
