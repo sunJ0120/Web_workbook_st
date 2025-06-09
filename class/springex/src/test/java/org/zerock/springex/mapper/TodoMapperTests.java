@@ -9,6 +9,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.zerock.springex.domain.TodoVO;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Log4j2
 @ExtendWith(SpringExtension.class)
@@ -35,5 +36,16 @@ public class TodoMapperTests {
         todoMapper.insert(vo);
 
         //then
+    }
+
+    @Test
+    public void testSelectAll(){
+        //todoMapper로 정의한 인터페이스에서 selectAll 메서드를 호출해서, mapper.xml에서 정의한 쿼리를 실행한다.
+        List<TodoVO> voList = todoMapper.selectAll();
+
+        //voList에 담긴 vo 리스트들을 출력한다.
+        voList.forEach(vo -> {
+            log.info("todoVO : {}", vo);
+        });
     }
 }

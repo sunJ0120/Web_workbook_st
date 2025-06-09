@@ -3,6 +3,7 @@ package org.zerock.springex.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,9 +22,13 @@ public class TodoController {
 
     private final TodoService todoService;
 
+    //왜 여기를 RequestMapping으로 했을까?..음 이해 안된다......
+    //이거 만약에 그냥 Get이면 바꿔도 될 것 같다.
     @RequestMapping("/list")
-    public void list(){
+    public void list(Model model){
         log.info("todo list.....");
+        // 서비스에서 모든 TodoDTO를 가져와서 모델에 추가한다. 이 모델을 JSP에서 뷰로 이용할 수 있는 것이다.
+        model.addAttribute("dtoList", todoService.getAll());
     }
 
     @GetMapping(value="/register")
@@ -34,11 +39,11 @@ public class TodoController {
     @PostMapping("/register")
     public String registerPost(@Valid TodoDTO dto,
                                BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes){
+                               RedirectAttributes redirectAttributes) {
         log.info("POST todo register.......");
 
         // 유효성 검사 결과가 있으면 에러 메시지를 리다이렉트 속성에 추가하고 등록 페이지로 리다이렉트 한다.
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             log.info("has errors");
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
             return "redirect:/todo/register";
