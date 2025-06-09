@@ -14,6 +14,9 @@ import org.zerock.springex.service.TodoService;
 
 import javax.validation.Valid;
 
+/*
+여기 controller 안 되는 것 해결해야 한다.
+ */
 @Controller
 @RequestMapping("/todo")
 @Log4j2
@@ -53,5 +56,16 @@ public class TodoController {
         todoService.register(dto);
 
         return "redirect:/todo/list"; // 리다이렉트하여 list로 이동
+    }
+
+    @GetMapping("/read")
+    public void read(Long tno, Model model){
+        //controller에서는 service를 호출한다. 그리고 하나만 조회하는 것이므로 tno를 가져와서 조회한다.
+        TodoDTO dto = todoService.getOne(tno);
+        //가져온 dto를 한 번 log로 출력해보자.
+        log.info("dto = {}", dto);
+
+        // Controller에서 model에 dto를 추가하고, jsp에서 이를 이용할 수 있도록 한다.
+        model.addAttribute("dto", dto);
     }
 }

@@ -65,9 +65,10 @@
                         </thead>
                         <tbody>
                         <c:forEach items="${dtoList}" var="dto">
+                            <!-- 여기서 각각 TodoDTO의 제목을 누르면 상세 페이지로 이동할 수 있도록 한다. -->
                             <tr>
-                                <th scope="row">${dto.tno}</th>
-                                <td><c:out value="${dto.title}"/></td>
+                                <th scope="row"><c:out value="${dto.tno}"/></th>
+                                <td><a href="/todo/read?tno=${dto.tno}" class="text-decoration-none"><c:out value="${dto.title}"/></a></td>
                                 <td><c:out value="${dto.writer}"/></td>
                                 <td><c:out value="${dto.dueDate}"/></td>
                                 <td><c:out value="${dto.finished}"/></td>

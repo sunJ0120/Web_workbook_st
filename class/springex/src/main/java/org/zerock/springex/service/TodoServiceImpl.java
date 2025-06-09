@@ -37,4 +37,12 @@ public class TodoServiceImpl implements TodoService{
 
         return dtoList;
     }
+    //selectOne을 사용하는 getOne 메서드를 정의한다.
+    @Override
+    public TodoDTO getOne(Long tno) {
+        TodoVO vo = todoMapper.selectOne(tno);
+        // service에서 vo를 dto로 변환해야 한다.
+        TodoDTO dto = modelMapper.map(vo, TodoDTO.class);
+        return dto;
+    }
 }

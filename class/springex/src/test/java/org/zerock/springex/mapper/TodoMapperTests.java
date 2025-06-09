@@ -48,4 +48,13 @@ public class TodoMapperTests {
             log.info("todoVO : {}", vo);
         });
     }
+
+    @Test
+    public void testSelectOne() {
+        //tno가 1인 TodoVO 객체를 가져온다.
+        TodoVO todoVO = todoMapper.selectOne(3L);
+
+        //가져온 TodoVO 객체를 출력해서 test 한다.
+        log.info("todoVO : {}", todoVO);
+    }
 }
