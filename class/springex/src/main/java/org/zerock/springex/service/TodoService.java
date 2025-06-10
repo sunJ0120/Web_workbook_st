@@ -14,4 +14,7 @@ public interface TodoService {
 
     //remove 메서드를 정의하기 위해 Service 인터페이스에 이를 추가한다.
     void remove(Long tno);
+
+    // modify 기능을 정의하기 위해 다음과 같이 modify를 만들어 준다.
+    void modify(TodoDTO dto);
 }

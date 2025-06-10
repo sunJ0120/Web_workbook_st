@@ -120,6 +120,27 @@
 
                         formObj.submit();
                     }, false);
+
+                    document.querySelector(".btn-primary").addEventListener("click", function (e){
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        //formObj를 이렇게 잡아서 여기서 url이랑 post 설정을 해주는것도 가능하구나 아...
+                        formObj.action = "/todo/modify";
+                        formObj.method = "post";
+
+                        formObj.submit();
+                    }, false);
+                </script>
+                <!--modify.jsp에서 검증시 문제가 생겼을때, 여기 script로 이동한다. -->
+                <script>
+                    const serverValidResult = {}
+                    <c:forEach items="${errors}" var="error">
+                        serverValidResult['${error.getField()}'] = "${error.defaultMessage}";
+                    </c:forEach>
+
+                    <!-- 서버에서 검증 결과를 콘솔에 출력해본다. -->
+                    console.log(serverValidResult)
                 </script>
             </div>
         </div>

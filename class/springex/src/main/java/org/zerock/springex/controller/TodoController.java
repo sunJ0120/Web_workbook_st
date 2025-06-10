@@ -82,4 +82,26 @@ public class TodoController {
 
         return "redirect:/todo/list"; // 삭제 후에는 목록으로 리다이렉트한다.
     }
+
+    //Get은 받았으니까 post 방식으로 동작하는 modify method를 구현한다.
+    @PostMapping("/modify")
+    public String modify(@Valid TodoDTO dto,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes){
+
+        //bindingResult는 유효성 검사 결과를 담고 있다. 이게 에러일 경우를 체크하는 것이다.
+        if(bindingResult.hasErrors()){
+            log.info("has errors......"); //에러 체크를 위한 log이다.
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+
+            //tno를 담아주는건...이걸 화면에서 쓰기 때문인가? 모르겠다....
+            redirectAttributes.addAttribute("tno", dto.getTno());
+            return "redirect:/todo/modify"; // 에러가 있을 경우 수정 페이지로 다시 리다이렉트한다.
+        }
+
+        log.info("dto = {}", dto);
+        todoService.modify(dto); //service의 modify로 이동한다.
+
+        return "redirect:/todo/list"; // 수정 후에는 목록으로 리다이렉트한다.
+    }
 }

@@ -52,4 +52,11 @@ public class TodoServiceImpl implements TodoService{
         //service의 mapper의 delete를 연결한다.
         todoMapper.delete(tno);
     }
+
+    @Override
+    public void modify(TodoDTO dto) {
+        //service에서는 dto를 받아서 vo로 변환한다.
+        TodoVO vo = modelMapper.map(dto, TodoVO.class);
+        todoMapper.update(vo);
+    }
 }

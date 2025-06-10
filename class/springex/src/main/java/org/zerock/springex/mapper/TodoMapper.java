@@ -18,4 +18,7 @@ public interface TodoMapper {
 
     //delete 메서드를 구현한다.
     void delete(Long tno);
+
+    //update 메서드를 구현한다.
+    void update(TodoVO vo);
 }
