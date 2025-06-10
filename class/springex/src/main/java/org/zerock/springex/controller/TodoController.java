@@ -58,7 +58,8 @@ public class TodoController {
         return "redirect:/todo/list"; // 리다이렉트하여 list로 이동
     }
 
-    @GetMapping("/read")
+    // read와 modify가 같은 Get method로 들어가도록 한다.
+    @GetMapping({"/read", "/modify"})
     public void read(Long tno, Model model){
         //controller에서는 service를 호출한다. 그리고 하나만 조회하는 것이므로 tno를 가져와서 조회한다.
         TodoDTO dto = todoService.getOne(tno);
@@ -67,5 +68,18 @@ public class TodoController {
 
         // Controller에서 model에 dto를 추가하고, jsp에서 이를 이용할 수 있도록 한다.
         model.addAttribute("dto", dto);
+    }
+
+    // [2025-06-10] 지금 remove가 안되고 있는 상황인데, 뭐가 문젠지 알아야 한다.
+    @PostMapping("/remove")
+    public String remove(Long tno, RedirectAttributes redirectAttributes){
+        log.info("--------------remove--------------");
+        //우선 tno가 제대로 들어오는지 로그를 찍어본다.
+        log.info("tno : {}", tno);
+
+        //service의 delete를 불러온다
+        todoService.remove(tno);
+
+        return "redirect:/todo/list"; // 삭제 후에는 목록으로 리다이렉트한다.
     }
 }

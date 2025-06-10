@@ -15,4 +15,7 @@ public interface TodoMapper {
 
     //상세 조회를 위해 selectOne 메서드를 이용해서 TodoVO 객체를 반환한다.
     TodoVO selectOne(Long tno);
+
+    //delete 메서드를 구현한다.
+    void delete(Long tno);
 }
