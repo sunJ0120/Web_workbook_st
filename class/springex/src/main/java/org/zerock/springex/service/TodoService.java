@@ -1,13 +1,14 @@
 package org.zerock.springex.service;
 
+import org.zerock.springex.dto.PageRequestDTO;
+import org.zerock.springex.dto.PageResponseDTO;
 import org.zerock.springex.dto.TodoDTO;
-
-import java.util.List;
 
 public interface TodoService {
     void register(TodoDTO dto);
 
-    List<TodoDTO> getAll();
+    //이부분을 page를 가지고 오는 것으로 변경한다.
+    PageResponseDTO<TodoDTO> getList(PageRequestDTO pageRequestDTO);
 
     // selectOne 메서드를 사용할 TodoService getOne을 정의한다.
     TodoDTO getOne(Long tno);

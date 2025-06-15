@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.zerock.springex.domain.TodoVO;
+import org.zerock.springex.dto.PageRequestDTO;
 
+import java.awt.image.VolatileImage;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -56,5 +58,16 @@ public class TodoMapperTests {
 
         //가져온 TodoVO 객체를 출력해서 test 한다.
         log.info("todoVO : {}", todoVO);
+    }
+
+    @Test
+    public void testSelectList(){
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .page(1)
+                .size(10)
+                .build();
+
+        List<TodoVO> voList = todoMapper.selectList(pageRequestDTO);
+        voList.forEach(vo -> log.info(vo));
     }
 }

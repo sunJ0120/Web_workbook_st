@@ -5,6 +5,8 @@ import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.zerock.springex.domain.TodoVO;
+import org.zerock.springex.dto.PageRequestDTO;
+import org.zerock.springex.dto.PageResponseDTO;
 import org.zerock.springex.dto.TodoDTO;
 import org.zerock.springex.mapper.TodoMapper;
 
@@ -29,14 +31,33 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
-    public List<TodoDTO> getAll() {
-        // todoMapper로 정의한 인터페이스에서 selectAll 메서드를 호출해서, modelMapper를 이용해서 이를 vo에서 dto로 변환한다.
-        List<TodoDTO> dtoList = todoMapper.selectAll().stream()
+    public PageResponseDTO<TodoDTO> getList(PageRequestDTO pageRequestDTO) {
+        // pageRequestDTO의 경우는 page, size, skip을 정한다.
+
+        // 이 부분이 limit로 선택하는 부분이다.
+        List<TodoVO> voList = todoMapper.selectList(pageRequestDTO);
+        //voList를 dtoList로 변환
+        List<TodoDTO> dtoList = voList.stream()
                 .map(vo -> modelMapper.map(vo, TodoDTO.class))
                 .collect(Collectors.toList());
 
-        return dtoList;
+        //getCount를 통해 전체 갯수를 가져온다.
+        int total = todoMapper.getCount(pageRequestDTO);
+
+        //여기 로직이 지금 문제가 있으니, 어디가 문제인지 확인해보자.
+
+        PageResponseDTO<TodoDTO> pageResponseDTO = PageResponseDTO.<TodoDTO>withAll()
+                .dtoList(dtoList)
+                .total(total)
+                .pageRequestDTO(pageRequestDTO)
+                .build();
+
+        log.info("확인용 PageResponseDTO 생성 결과: {}", pageResponseDTO);
+
+        //이걸 통해 prev, next, start, end 등을 전부 계산 가능하다.
+        return pageResponseDTO;
     }
+
     //selectOne을 사용하는 getOne 메서드를 정의한다.
     @Override
     public TodoDTO getOne(Long tno) {

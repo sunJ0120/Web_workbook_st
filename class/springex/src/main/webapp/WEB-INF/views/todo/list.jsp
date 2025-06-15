@@ -64,7 +64,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${dtoList}" var="dto">
+                        <c:forEach items="${responseDTO.dtoList}" var="dto">
                             <!-- 여기서 각각 TodoDTO의 제목을 누르면 상세 페이지로 이동할 수 있도록 한다. -->
                             <tr>
                                 <th scope="row"><c:out value="${dto.tno}"/></th>
@@ -76,6 +76,56 @@
                         </c:forEach>
                         </tbody>
                     </table>
+                    <!-- 페이징 처리 부트스트랩 -->
+
+                    <div class="float-end">
+                        <ul class="pagination justify-content-center">
+
+                            <!-- 이 부분이 이제 Previous가 나타나는 부분이다. -->
+                            <c:if test="${responseDTO.prev}">
+                                <li class="page-item">
+                                    <a class="page-link" data-num="${responseDTO.start - 1}">Previous</a>
+                                </li>
+                            </c:if>
+
+                            <!-- page 로 넘어갈 수 있도록 forEach 구성 -->
+                            <c:forEach begin="${responseDTO.start}" end="${responseDTO.end}"  var="num">
+                                <li class="page-item ${responseDTO.page == num? "active":""}">
+                                    <a class="page-link" data-num="${num}">${num}</a>
+                                </li>
+                            </c:forEach>
+
+                            <!-- 이게 next를 구성하는 것이다. -->
+                            <c:if test="${responseDTO.next}">
+                                <li class="page-item">
+                                    <a class="page-link" data-num="${responseDTO.end + 1}">Next</a>
+                                </li>
+                            </c:if>
+                        </ul>
+                    </div>
+
+                    <!-- 페이지 이동을 위한 스크립트 추가, data-num 변수를 이용한다. -->
+                    <script>
+                        document.querySelectorAll(".pagination").addEventListener('click', function(e) {
+                            e.preventDefault() // 기본 동작을 막는다.
+                            e.stopPropagation() // 이벤트 전파를 막는다.
+
+                            const target = e.target; //클릭된 실제 DOM 요소를 가져온다.
+
+                            //a 태그를 클릭했을때만 동작하도록 하기 위함이다.
+                            if(target.tagName !== 'A'){
+                                return;
+                            }
+
+                            // 저장한 data-num 속성값을 가져온다.
+                            const num = target.getAttribute("data-num");
+
+                            self.location = `/todo/list?page=\${num}`; //백틱을 이용해서 템플릿 처리한다.
+                            //페이지 이동을 자바스크립트로 처리하기 위함이다.
+                            //여기서 self는 현재 window 객체를 의미한다. (window.location과 동일하다.)
+                        },false);
+                    </script>
+
                 </div>
             </div>
         </div>

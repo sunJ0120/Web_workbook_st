@@ -6,6 +6,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.zerock.springex.dto.PageRequestDTO;
+import org.zerock.springex.dto.PageResponseDTO;
 import org.zerock.springex.dto.TodoDTO;
 import org.zerock.springex.service.TodoService;
 
@@ -31,6 +33,22 @@ public class TodoServiceTests {
         todoService.register(dto);
 
         //then
+    }
 
+    @Test
+    public void testPaging() throws Exception {
+        //given
+        //이를 톨해 새로운 page 생성
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(1).size(10).build();
+
+        //when, getList를 가져왔을때 제대로 가져오는지를 살펴본다.
+        PageResponseDTO<TodoDTO> responseDTO = todoService.getList(pageRequestDTO);
+
+        //then
+        log.info("responseDTO : {}", responseDTO);
+
+        responseDTO.getDtoList().stream().forEach(todoDTO -> {
+            log.info("todoDTO ; {}",todoDTO);
+        });
     }
 }

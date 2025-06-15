@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.zerock.springex.dto.PageRequestDTO;
 import org.zerock.springex.dto.TodoDTO;
 import org.zerock.springex.service.TodoService;
 
@@ -25,13 +26,19 @@ public class TodoController {
 
     private final TodoService todoService;
 
-    //왜 여기를 RequestMapping으로 했을까?..음 이해 안된다......
-    //이거 만약에 그냥 Get이면 바꿔도 될 것 같다.
-    @RequestMapping("/list")
-    public void list(Model model){
-        log.info("todo list.....");
-        // 서비스에서 모든 TodoDTO를 가져와서 모델에 추가한다. 이 모델을 JSP에서 뷰로 이용할 수 있는 것이다.
-        model.addAttribute("dtoList", todoService.getAll());
+    @GetMapping("/list")
+    public void list(@Valid PageRequestDTO pageRequestDTO,
+                     BindingResult bindingResult,
+                     Model model){
+
+        log.info("pageRequestDTO : {}", pageRequestDTO);
+
+        if(bindingResult.hasErrors()){
+            //errors가 있다면, 기본값을 설정하기 위함이다.
+            //이 안에 기본값이 있기 때문에 가능한 것이다.
+            pageRequestDTO = PageRequestDTO.builder().build();
+        }
+        model.addAttribute("responseDTO", todoService.getList(pageRequestDTO));
     }
 
     @GetMapping(value="/register")

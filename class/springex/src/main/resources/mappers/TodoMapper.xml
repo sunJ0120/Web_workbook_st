@@ -26,4 +26,14 @@
         update tbl_todo set title = #{title}, dueDate = #{dueDate},
         finished = #{finished} where tno = #{tno}
     </update>
+
+    <!-- 페이징 처리를 위한 select, limit을 통해 가져오는 데이터 수와 skip data 수를 구한다. -->
+    <select id="selectList" resultType="org.zerock.springex.domain.TodoVO">
+        SELECT * FROM tbl_todo ORDER BY tno DESC limit #{skip}, #{size}
+    </select>
+
+    <!-- 전체 tno의 갯수를 가져오기 위함이다. -->
+    <select id="getCount" resultType="int">
+        SELECT COUNT(tno) FROM tbl_todo
+    </select>
 </mapper>
